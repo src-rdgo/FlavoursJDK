@@ -49,7 +49,7 @@ Before installing **FJDK**, ensure you have the following dependencies installed
 3. **Source your shell**:
     - Open a **new shell** or.. **Alternatively** you can just source your shell config in your current session with: 
         - `source ~/.zshrc` -> For zsh
-        - `source ~/.zshrc` -> For bash
+        - `source ~/.bashrc` -> For bash
 
 ## 📖 Usage Guide
 
