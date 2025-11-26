@@ -1,0 +1,5 @@
+.DS_Store
+external/*
+null_jdk/*
+versions/*
+workspaces/*
