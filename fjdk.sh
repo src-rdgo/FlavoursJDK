@@ -161,11 +161,15 @@ fetch_latest_patch_info_azul() {
     local feature_version=$1; local API_OS; local API_ARCH
     case $(uname -s) in "Linux") API_OS="linux" ;; "Darwin") API_OS="macos" ;; *) echo "ERROR_OS" >&2; return 1 ;; esac
     case $(uname -m) in "x86_64") API_ARCH="x86_64" ;; "aarch64"|"arm64") API_ARCH="arm_64" ;; *) echo "ERROR_ARCH" >&2; return 1 ;; esac
-    echo -e "${BLUE_LIGHT}${ICON_CLOUD} [Azul] Fetching patch for $feature_version...${RESET}" >&2
-    local api_url="https://api.azul.com/metadata/v1/zulu/packages/?java_version=${feature_version}&os=${API_OS}&arch=${API_ARCH}&archive_type=tar.gz&package_type=jdk&availability_types=st&release_status=ga&sort_by=java_version&sort_order=desc&page=1&page_size=1"
+    
+    echo -e "${BLUE_LIGHT}${ICON_CLOUD} [Azul] Fetching patch for JDK ${feature_version}...${RESET}" >&2
+    
+    local api_url="https://api.azul.com/metadata/v1/zulu/packages/?java_version=${feature_version}&os=${API_OS}&arch=${API_ARCH}&archive_type=tar.gz&package_type=jdk&availability_types=st&release_status=ga&sort_by=java_version&sort_order=desc&page=1&page_size=100"
+    
     local api_data; api_data=$(api_curl "$api_url")
     if [ $? -ne 0 ] || [ -z "$api_data" ] || [ "$api_data" = "[]" ]; then echo "ERROR_API_AZUL" >&2; return 1; fi
-    echo "$api_data" | jq -r '.[0] | select(.download_url != null) | "zulu-jdk-" + (.java_version | .[0:3] | join(".")) + "|" + (.java_version | .[0:3] | join(".")) + "|" + .download_url + "|" + .sha256_hash'
+    
+    echo "$api_data" | jq -r '.[] | select(.download_url != null) | select(.name | contains("jdk")) | select(.name | contains("jre") | not) | "zulu-jdk-" + (.java_version | .[0:3] | join(".")) + "|" + (.java_version | .[0:3] | join(".")) + "|" + .download_url + "|" + .sha256_hash' | head -n 1
 }
 
 compare_versions() { printf '%s\n' "$1" "$2" | sort -V | tail -n 1; }
