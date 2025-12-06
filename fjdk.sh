@@ -11,7 +11,7 @@
 # Repository:    https://github.com/src-rdgo/FlavoursJDK   (public)
 # Contact:       https://www.linkedin.com/in/rodrigolongueira/
 # Creation Date: 21/11/2025
-# Version:       1.0.0
+# Version:       1.0.1
 # Licença:       MIT
 # -----------------------------------------------------------------------------
 # docs:          readme.md
@@ -51,7 +51,7 @@ ICON_TREE_V="│"
 
 # Core Directories
 : "${FJDK_DIR:="$HOME/.fjdk"}"
-FJDK_VERSION="1.0.0"
+FJDK_VERSION="1.0.1"
 FJDK_VERSIONS_DIR="$FJDK_DIR/versions"
 FJDK_EXTERNAL_DIR="$FJDK_DIR/external"
 FJDK_CURRENT_LINK="$FJDK_DIR/current"
